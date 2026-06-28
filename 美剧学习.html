@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>learning with F·R·I·E·N·D·S</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  .friends-dot { animation: bounce 1.5s ease-in-out infinite; }
+  .friends-dot:nth-child(1){ animation-delay:0s; } .friends-dot:nth-child(2){ animation-delay:0.2s; }
+  .friends-dot:nth-child(3){ animation-delay:0.4s; } .friends-dot:nth-child(4){ animation-delay:0.6s; }
+  .friends-dot:nth-child(5){ animation-delay:0.8s; } .friends-dot:nth-child(6){ animation-delay:1s; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .gradient-border { border:3px solid; border-image:linear-gradient(135deg,#e74c3c,#f1c40f,#3498db,#2ecc71) 1; }
+  .word { cursor:pointer; border-radius:3px; padding:1px 2px; }
+  .word:hover { background:#fef08a; }
+  select, button { cursor:pointer; }
+  video::-webkit-media-controls { display:none !important; }
+</style>
+</head>
+<body class="bg-[#fdf6f0] min-h-screen pb-20">
+
+<!-- ═══════ HEADER ═══════ -->
+<header class="text-center pt-10 pb-6 px-4">
+  <div class="flex justify-center gap-3 mb-4">
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#e74c3c] block"></span>
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#3498db] block"></span>
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#f1c40f] block"></span>
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#2ecc71] block"></span>
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#e76f51] block"></span>
+    <span class="friends-dot w-3 h-3 rounded-full bg-[#8b5cf6] block"></span>
+  </div>
+  <h1 class="text-4xl font-bold text-[#2d1b69] tracking-wide">learning with F·R·I·E·N·D·S</h1>
+  <p class="text-gray-500 text-sm mt-1">老友记 · 台词学英语</p>
+  <div class="h-1 w-24 mx-auto mt-4 rounded gradient-border"></div>
+</header>
+
+<!-- ═══════ MAIN ═══════ -->
+<main class="max-w-lg mx-auto px-4">
+
+  <!-- Filters -->
+  <div class="flex gap-2 mb-3 overflow-x-auto pb-1 flex-wrap">
+    <select id="charFilter" onchange="applyFilters()" class="text-xs px-3 py-2 rounded-full border border-gray-200 bg-white font-medium">
+      <option value="all">👤 全部人物</option>
+      <option value="Rachel">Rachel</option><option value="Ross">Ross</option>
+      <option value="Monica">Monica</option><option value="Chandler">Chandler</option>
+      <option value="Joey">Joey</option><option value="Phoebe">Phoebe</option>
+    </select>
+    <select id="epFilter" onchange="applyFilters()" class="text-xs px-3 py-2 rounded-full border border-gray-200 bg-white font-medium">
+      <option value="all">📺 全部集数</option>
+    </select>
+  </div>
+
+  <!-- Sentence Card -->
+  <div id="card" class="bg-white rounded-2xl p-6 mb-4 gradient-border shadow-sm">
+    <div class="flex gap-2 mb-3 flex-wrap items-center text-xs">
+      <span id="cardSpeaker" class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full font-bold"></span>
+      <span id="cardScene" class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full"></span>
+      <span id="cardEp" class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full"></span>
+      <span id="cardTS" class="px-3 py-1 bg-red-50 text-red-700 rounded-full flex items-center gap-1">
+        <button onclick="adjTS(-0.5)" class="hover:text-red-900 font-bold">◀</button>
+        <span id="tsLabel">00:00</span>
+        <button onclick="adjTS(0.5)" class="hover:text-red-900 font-bold">▶</button>
+      </span>
+    </div>
+
+    <p id="cardEn" class="text-xl font-semibold text-gray-800 leading-relaxed mb-3"></p>
+    <p id="cardCn" class="text-sm text-gray-500 bg-gray-50 rounded-xl p-3 mb-4"></p>
+
+    <div class="flex gap-2">
+      <button id="btnPlay" onclick="playOriginal()" class="flex-1 py-3 bg-red-50 text-red-700 rounded-xl font-bold text-sm hover:bg-red-100 transition">
+        🎬 原声
+      </button>
+      <button onclick="nextSentence()" class="flex-1 py-3 bg-purple-600 text-white rounded-xl font-bold text-sm hover:bg-purple-700 transition">
+        下一句 →
+      </button>
+    </div>
+  </div>
+
+  <!-- Progress -->
+  <div class="text-center text-xs text-gray-400 mb-4" id="progress"></div>
+
+  <!-- Vocab quick actions -->
+  <div class="flex gap-2 justify-center mb-6 flex-wrap" id="wordChips"></div>
+
+  <!-- Vocab list -->
+  <details class="bg-white rounded-2xl p-4 gradient-border">
+    <summary class="font-bold text-gray-700 cursor-pointer">📝 生词本 (<span id="vocabCount">0</span>)</summary>
+    <div id="vocabList" class="mt-3 space-y-2 max-h-64 overflow-y-auto"></div>
+    <button onclick="exportVocab()" class="mt-3 text-xs text-purple-600 underline">导出CSV</button>
+  </details>
+</main>
+
+<!-- Dict Modal -->
+<div id="dictModal" class="fixed inset-0 bg-black/40 hidden flex items-end z-50" onclick="closeDict(event)">
+  <div class="bg-white w-full max-w-lg mx-auto rounded-t-3xl p-6 max-h-[70vh] overflow-y-auto" onclick="event.stopPropagation()">
+    <button onclick="closeDict()" class="float-right text-2xl text-gray-400">&times;</button>
+    <div id="dictContent"></div>
+    <button id="dictAddBtn" class="w-full mt-4 py-3 bg-purple-600 text-white rounded-xl font-bold text-sm hidden">
+      📝 加入生词本
+    </button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 bg-gray-900 text-white px-5 py-2 rounded-full text-sm font-medium opacity-0 transition pointer-events-none z-50"></div>
+
+<video id="video" style="display:none" preload="auto" playsinline></video>
+
+<script>
+// ═══════ DATA ═══════
+let scripts=[], vocabIdx={}, vocabulary={}, filtered=[], idx=0;
+
+async function init(){
+  try{
+    const [s,v]=await Promise.all([
+      fetch('data/scripts.json').then(r=>r.json()),
+      fetch('data/vocab_index.json').then(r=>r.json())
+    ]);
+    scripts=s; vocabIdx=v;
+  }catch(e){
+    try{
+      const [s2,v2]=await Promise.all([
+        fetch('data/scripts.json').then(r=>r.json()),
+        fetch('data/vocab_index.json').then(r=>r.json())
+      ]);
+      scripts=s2; vocabIdx=v2;
+    }catch(e2){
+      document.getElementById('cardEn').textContent='❌ 数据加载失败，请确认 friends-english/data/ 目录存在';
+      return;
+    }
+  }
+  vocabulary=JSON.parse(localStorage.getItem('fv')||'{}');
+  const cal=JSON.parse(localStorage.getItem('fcal')||'{}');
+  scripts.forEach(s=>{ if(cal[s.id]) s.timestamp=cal[s.id]; if(!s._ots) s._ots=s.timestamp; });
+
+  // 建集数列表
+  const eps={};
+  scripts.forEach(s=>{ const k=`${s.season}-${s.episode}`; if(!eps[k]) eps[k]=0; eps[k]++; });
+  const sel=document.getElementById('epFilter');
+  Object.entries(eps).sort((a,b)=>a[0].localeCompare(b[0])).forEach(([k,c])=>{
+    const [se,ep]=k.split('-');
+    sel.innerHTML+=`<option value="${k}">S${se.padStart(2,'0')}E${ep.padStart(2,'0')} (${c})</option>`;
+  });
+
+  applyFilters();
+}
+
+function applyFilters(){
+  const cf=document.getElementById('charFilter').value;
+  const ef=document.getElementById('epFilter').value;
+  filtered=[...scripts];
+  if(cf!=='all') filtered=filtered.filter(s=>s.speaker===cf);
+  if(ef!=='all'){ const [se,ep]=ef.split('-').map(Number); filtered=filtered.filter(s=>s.season===se&&s.episode===ep); }
+  idx=0; showCard();
+}
+
+// ═══════ CARD ═══════
+function showCard(){
+  if(!filtered.length){ document.getElementById('cardEn').textContent='没有匹配的台词'; return; }
+  if(idx>=filtered.length) idx=0;
+  const s=filtered[idx];
+  document.getElementById('progress').textContent=`${idx+1} / ${filtered.length}`;
+  document.getElementById('cardSpeaker').textContent='👤 '+s.speaker;
+  document.getElementById('cardScene').textContent='📍 '+s.scene;
+  document.getElementById('cardEp').textContent=`S${String(s.season).padStart(2,'0')}E${String(s.episode).padStart(2,'0')}`;
+  document.getElementById('tsLabel').textContent=s.timestamp;
+
+  document.getElementById('cardEn').innerHTML=s.text.split(/(\s+)/).map(p=>{
+    const w=p.trim().replace(/[.,!?;:'"()]$/,'');
+    return (w.length>1&&!/^\d+$/.test(w))?`<span class="word" onclick="lookup('${w}')">${p}</span>`:p;
+  }).join('');
+  document.getElementById('cardCn').textContent='💬 '+s.textCN;
+  document.getElementById('wordChips').innerHTML=s.keywords.slice(0,6).map(k=>
+    `<span class="word text-xs px-3 py-1 bg-purple-50 text-purple-700 rounded-full cursor-pointer" onclick="lookup('${k}')">${k}</span>`
+  ).join('');
+  document.getElementById('btnPlay').textContent='🎬 原声';
+  document.getElementById('video').pause();
+  renderVocab();
+}
+
+function nextSentence(){ idx++; showCard(); }
+document.addEventListener('keydown',e=>{ if(e.key==='ArrowRight') nextSentence(); });
+
+// ═══════ AUDIO/VIDEO ═══════
+function adjTS(d){
+  const s=filtered[idx]; if(!s) return;
+  const ts=s.timestamp.replace(',',':').split(':');
+  let sec=parseInt(ts[0])*3600+parseInt(ts[1])*60+parseInt(ts[2])+(ts.length>3?parseInt(ts[3])/1000:0);
+  sec=Math.max(0,sec+d);
+  const h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s2=Math.floor(sec%60),ms=Math.round((sec%1)*1000);
+  s.timestamp=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s2).padStart(2,'0')},${String(ms).padStart(3,'0')}`;
+  const cal=JSON.parse(localStorage.getItem('fcal')||'{}'); cal[s.id]=s.timestamp; localStorage.setItem('fcal',JSON.stringify(cal));
+  document.getElementById('tsLabel').textContent=s.timestamp;
+  toast('⏱ '+(d>=0?'+':'')+d+'s');
+}
+
+function playOriginal(){
+  const s=filtered[idx]; if(!s) return;
+  const v=document.getElementById('video');
+  const btn=document.getElementById('btnPlay');
+  if(!v.paused&&v.dataset.sid===s.id){ v.pause(); btn.textContent='🎬 原声'; return; }
+
+  const path=`video/S${String(s.season).padStart(2,'0')}E${String(s.episode).padStart(2,'0')}.mp4`;
+  const ts=s.timestamp.replace(',',':').split(':');
+  const sec=parseInt(ts[0])*3600+parseInt(ts[1])*60+parseInt(ts[2])+(ts.length>3?parseInt(ts[3])/1000:0);
+
+  v.src=path; v.dataset.sid=s.id; v.currentTime=Math.max(0,sec-0.5);
+  v.onloadeddata=()=>{ btn.textContent='⏹ 停止'; toast('🎬 '+s.speaker); };
+  v.onended=()=>{ btn.textContent='🎬 原声'; };
+  v.onerror=()=>{ btn.textContent='🎬 原声'; toast('❌ 缺失视频文件'); };
+  v.play().catch(e=>toast('❌ '+e.message));
+}
+
+// ═══════ DICTIONARY ═══════
+async function lookup(w){
+  document.getElementById('dictModal').classList.remove('hidden');
+  document.getElementById('dictModal').classList.add('flex');
+  const c=document.getElementById('dictContent');
+  const btn=document.getElementById('dictAddBtn');
+  c.innerHTML=`<div class="text-2xl font-bold">${w}</div><div class="text-gray-400 text-sm mt-1">⏳ 查询中...</div>`;
+  btn.classList.add('hidden');
+  btn.onclick=()=>{ addVocab(w); closeDict(); };
+  btn.textContent=vocabulary[w]?'✅ 已在生词本':'📝 加入生词本';
+  btn.classList.remove('hidden');
+
+  try{
+    const r=await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${w}`);
+    if(!r.ok) throw new Error('');
+    const d=await r.json(); const e=d[0];
+    let h=`<div class="text-2xl font-bold">${e.word}</div>`;
+    if(e.phonetic) h+=`<div class="text-gray-500 text-sm">🔊 ${e.phonetic}</div>`;
+    e.meanings.forEach(m=>{
+      h+=`<div class="mt-3"><span class="text-xs text-red-500 font-bold">${m.partOfSpeech}</span></div>`;
+      m.definitions.slice(0,3).forEach(d=>h+=`<div class="py-1 border-b border-gray-100"><div>${d.definition}</div>${d.example?`<div class="text-gray-400 text-sm italic">"${d.example}"</div>`:''}</div>`);
+    });
+    const rel=vocabIdx[w.toLowerCase()];
+    if(rel&&rel.length){
+      h+=`<div class="mt-3 font-bold text-purple-700">📺 出现 ${rel.length} 次</div>`;
+      rel.slice(0,3).forEach(id=>{ const s=scripts.find(sc=>sc.id===id); if(s) h+=`<div class="text-sm py-1 border-b border-gray-100"><b>${s.speaker}</b>: "${s.text}"</div>`; });
+    }
+    c.innerHTML=h;
+  }catch(x){ c.innerHTML=`<div class="text-2xl font-bold">${w}</div><div class="text-gray-400">暂无词典数据</div>`; }
+}
+
+function closeDict(e){ if(e&&e.target!==document.getElementById('dictModal')) return; document.getElementById('dictModal').classList.add('hidden'); document.getElementById('dictModal').classList.remove('flex'); }
+
+// ═══════ VOCAB ═══════
+function addVocab(w){
+  if(!vocabulary[w]) vocabulary[w]={added:new Date().toISOString(),level:'new'};
+  localStorage.setItem('fv',JSON.stringify(vocabulary)); renderVocab();
+}
+
+function renderVocab(){
+  const words=Object.keys(vocabulary);
+  document.getElementById('vocabCount').textContent=words.length;
+  document.getElementById('vocabList').innerHTML=words.length===0
+    ?'<div class="text-gray-400 text-sm">点击台词中的单词即可添加</div>'
+    :words.sort((a,b)=>new Date(vocabulary[b].added)-new Date(vocabulary[a].added)).map(w=>{
+      const v=vocabulary[w],cls={new:'bg-red-100 text-red-700',learning:'bg-amber-100 text-amber-700',mastered:'bg-green-100 text-green-700'};
+      return `<div class="flex justify-between items-center py-1"><span class="font-semibold cursor-pointer" onclick="lookup('${w}')">${w}</span>
+        <span class="flex gap-1 items-center">
+          <select onchange="vocabulary['${w}'].level=this.value;localStorage.setItem('fv',JSON.stringify(vocabulary));renderVocab()" class="text-xs px-2 py-1 rounded ${cls[v.level]||''}">
+            <option ${v.level==='new'?'selected':''} value="new">新学</option>
+            <option ${v.level==='learning'?'selected':''} value="learning">复习中</option>
+            <option ${v.level==='mastered'?'selected':''} value="mastered">已掌握</option>
+          </select>
+          <button onclick="delete vocabulary['${w}'];localStorage.setItem('fv',JSON.stringify(vocabulary));renderVocab()" class="text-gray-300 hover:text-red-500">×</button>
+        </span></div>`;
+    }).join('');
+}
+
+function exportVocab(){
+  const csv='Word,Level,Added\n'+Object.entries(vocabulary).map(([w,v])=>`${w},${v.level},${v.added}`).join('\n');
+  const b=new Blob([csv],{type:'text/csv'}); const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='friends_vocab.csv'; a.click();
+}
+
+function toast(m){
+  const t=document.getElementById('toast'); t.textContent=m; t.classList.add('opacity-100'); t.classList.remove('opacity-0');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.add('opacity-0'),1800);
+}
+
+init();
+renderVocab();
+</script>
+</body>
+</html>

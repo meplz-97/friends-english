@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="theme-color" content="#2d1b69">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Learning with FRIENDS">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+<title>learning with FRIENDS</title>
+<style>
+  :root {
+    --purple: #2d1b69;
+    --yellow: #f5c518;
+    --red: #e63946;
+    --blue: #457b9d;
+    --green: #2a9d8f;
+    --orange: #e76f51;
+    --cream: #fefae0;
+    --warm-white: #fffaec;
+    --coffee: #6f4e37;
+    --text: #1a1a2e;
+    --text-light: #6b7280;
+    --card-bg: #fffdf7;
+    --radius: 24px;
+    --font-display: "Georgia", "Times New Roman", serif;
+  }
+
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "PingFang SC", sans-serif;
+    background: #fdf6f0;
+    color: var(--text);
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* ═══════════ HOMEPAGE ═══════════ */
+  .homepage {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(245,197,24,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 60%, rgba(230,57,70,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 80%, rgba(69,123,157,0.08) 0%, transparent 50%),
+      linear-gradient(180deg, #fdf6f0 0%, #fefae0 50%, #fdf6f0 100%);
+  }
+
+  .logo-area {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  /* Friends-style dots decoration */
+  .friends-dots {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+  .friends-dots span {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    display: block;
+    animation: dotBounce 2s ease-in-out infinite;
+  }
+  .friends-dots span:nth-child(1) { background: var(--red); animation-delay: 0s; }
+  .friends-dots span:nth-child(2) { background: var(--blue); animation-delay: 0.2s; }
+  .friends-dots span:nth-child(3) { background: var(--yellow); animation-delay: 0.4s; }
+  .friends-dots span:nth-child(4) { background: var(--green); animation-delay: 0.6s; }
+  .friends-dots span:nth-child(5) { background: var(--orange); animation-delay: 0.8s; }
+  .friends-dots span:nth-child(6) { background: var(--purple); animation-delay: 1.0s; }
+
+  @keyframes dotBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .main-title {
+    font-family: var(--font-display);
+    font-size: 38px;
+    font-weight: 900;
+    color: var(--purple);
+    letter-spacing: 1px;
+    line-height: 1.15;
+    text-align: center;
+    text-shadow: 3px 3px 0 rgba(245,197,24,0.3);
+  }
+  .main-title .dot { color: var(--red); }
+  .main-title .ampersand {
+    color: var(--red);
+    font-style: italic;
+    position: relative;
+  }
+  /* Underline squiggle under FRIENDS */
+  .main-title::after {
+    content: '';
+    display: block;
+    width: 80%;
+    height: 4px;
+    margin: 8px auto 0;
+    background: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--green), var(--orange), var(--purple));
+    border-radius: 2px;
+  }
+
+  /* Peephole frame around the illustration */
+  .frame-wrapper {
+    position: relative;
+    width: 200px; height: 200px;
+    margin: 32px auto;
+  }
+  .peephole-frame {
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    border: 8px solid var(--yellow);
+    background: linear-gradient(135deg, #e8d5b0 0%, #f5e6c8 30%, #d4a574 60%, #c4956a 100%);
+    box-shadow:
+      0 0 0 12px rgba(245,197,24,0.25),
+      0 8px 32px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+  }
+  .peephole-frame::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    border: 3px dashed rgba(245,197,24,0.3);
+  }
+
+  .subtitle {
+    font-size: 14px;
+    color: var(--text-light);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .stats-row {
+    display: flex;
+    gap: 32px;
+    margin: 28px 0;
+    text-align: center;
+  }
+  .stat-num { font-size: 28px; font-weight: 800; color: var(--purple); }
+  .stat-label { font-size: 11px; color: var(--text-light); letter-spacing: 1px; text-transform: uppercase; }
+
+  .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 40px;
+    background: var(--purple);
+    color: #fff;
+    font-size: 17px;
+    font-weight: 700;
+    border: 3px solid transparent;
+    border-image: linear-gradient(90deg, var(--red), var(--yellow), var(--blue), var(--green)) 1;
+    border-radius: 50px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 24px rgba(45,27,105,0.3);
+    transition: all 0.25s;
+    text-decoration: none;
+  }
+  .btn-start:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(45,27,105,0.4); }
+  .btn-start:active { transform: scale(0.96); }
+
+  .btn-start .arrow { font-size: 20px; transition: transform .25s; }
+  .btn-start:hover .arrow { transform: translateX(4px); }
+
+  /* ═══════════ LEARNING PAGE ═══════════ */
+  .learn-page {
+    display: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    flex-direction: column;
+    background: linear-gradient(180deg, #fdf6f0 0%, #fefae0 100%);
+    padding: 16px;
+    padding-bottom: 100px;
+  }
+  .learn-page.active { display: flex; }
+
+  .learn-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 4px 16px;
+  }
+  .learn-header .back-btn {
+    background: none; border: none; font-size: 24px; cursor: pointer;
+    color: var(--purple); padding: 8px;
+  }
+  .learn-header .progress {
+    font-size: 13px; font-weight: 600; color: var(--text-light);
+  }
+  .learn-header .menu-btn {
+    background: none; border: none; font-size: 20px; cursor: pointer;
+    color: var(--purple); padding: 8px;
+  }
+
+  /* Single Sentence Card */
+  .card-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 520px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .scene-card {
+    width: 100%;
+    background: var(--card-bg);
+    border-radius: var(--radius);
+    padding: 40px 32px 28px;
+    box-shadow:
+      0 4px 16px rgba(0,0,0,0.04),
+      0 12px 40px rgba(0,0,0,0.06);
+    border: 3px solid transparent;
+    border-image: linear-gradient(135deg, var(--red), var(--yellow), var(--blue), var(--green)) 1;
+    position: relative;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+  .scene-card.swipe-out { transform: translateX(-120%); opacity: 0; }
+  .scene-card.swipe-next { animation: cardIn 0.35s ease-out; }
+  @keyframes cardIn {
+    from { transform: translateX(60px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+
+  /* Yellow frame accent */
+  /* 渐变边框替代了顶部色条 */
+
+  .scene-header {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-top: 4px;
+  }
+  .chip {
+    font-size: 11px; font-weight: 700; padding: 4px 12px;
+    border-radius: 20px; letter-spacing: 0.3px;
+  }
+  .chip-speaker { background: #ede9fe; color: var(--purple); }
+  .chip-scene { background: #fef3c7; color: #92400e; }
+  .chip-ep { background: #e0f2fe; color: #0c4a6e; }
+
+  .en-sentence {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.55;
+    color: var(--text);
+    margin-bottom: 16px;
+    letter-spacing: 0.2px;
+  }
+  .en-sentence .word {
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 1px 3px;
+    transition: background 0.15s;
+  }
+  .en-sentence .word:hover { background: #fef08a; }
+
+  .cn-sentence {
+    font-size: 17px;
+    color: var(--text-light);
+    line-height: 1.5;
+    padding: 12px 16px;
+    background: #faf8f3;
+    border-radius: 12px;
+    margin-bottom: 8px;
+  }
+
+  /* Card actions */
+  .card-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .ctrl-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 16px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .ctrl-btn:active { transform: scale(0.95); }
+
+  .btn-play {
+    background: #ede9fe;
+    color: var(--purple);
+    flex: 0.6;
+  }
+  .btn-learned {
+    background: var(--purple);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(45,27,105,0.25);
+  }
+  .btn-save-word {
+    background: #fff;
+    color: var(--coffee);
+    border: 1.5px solid #ede4d8;
+    flex: 0.5;
+    font-size: 18px;
+  }
+
+  /* YouTube embedded player */
+  .video-area {
+    width: 100%;
+    margin-top: 16px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #000;
+    aspect-ratio: 16/9;
+    display: none;
+  }
+  .video-area.show { display: block; }
+  .video-area iframe {
+    width: 100%; height: 100%; border: none;
+  }
+
+  /* Words learned bar */
+  .words-bar {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+    justify-content: center;
+  }
+  .word-tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 12px;
+    background: #ede9fe;
+    color: var(--purple);
+    cursor: pointer;
+    font-weight: 500;
+  }
+
+  /* ═══════════ VOCAB PAGE ═══════════ */
+  .sub-page {
+    display: none;
+    min-height: 100vh;
+    background: #fdf6f0;
+    padding: 16px;
+    padding-bottom: 100px;
+  }
+  .sub-page.active { display: block; }
+
+  .sub-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0 16px;
+    border-bottom: 1px solid #ede4d8;
+    margin-bottom: 16px;
+  }
+  .sub-header .back-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--purple); }
+  .sub-header h2 { font-size: 18px; color: var(--purple); }
+
+  .vocab-item {
+    background: #fffdf7;
+    padding: 16px;
+    margin-bottom: 8px;
+    border-radius: 14px;
+    border: 1px solid #ede4d8;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .vocab-item .v-word { font-size: 18px; font-weight: 700; cursor: pointer; }
+  .vocab-item .v-meta { font-size: 11px; color: var(--text-light); }
+  .level-tag {
+    font-size: 10px; font-weight: 700; padding: 3px 10px;
+    border-radius: 10px;
+  }
+  .lvl-new { background: #fee2e2; color: #991b1b; }
+  .lvl-learning { background: #fef3c7; color: #92400e; }
+  .lvl-mastered { background: #d1fae5; color: #065f46; }
+
+  .empty-state {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-light);
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+
+  /* ═══════════ DICT POPUP ═══════════ */
+  .dict-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 300;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .dict-overlay.show { display: flex; }
+  .dict-popup {
+    background: #fffdf7;
+    width: 100%; max-width: 500px; max-height: 70vh;
+    border-radius: 24px 24px 0 0;
+    padding: 24px 20px;
+    overflow-y: auto;
+    animation: slideUp 0.25s ease-out;
+    box-shadow: 0 -8px 40px rgba(0,0,0,0.1);
+  }
+  @keyframes slideUp { from { transform:translateY(100%); } to { transform:translateY(0); } }
+  .dict-popup .btn-close {
+    position: sticky; top: 0; float: right;
+    background: none; border: none; font-size: 24px;
+    cursor: pointer; color: var(--text-light);
+  }
+  .dict-popup .word-title { font-size: 28px; font-weight: 800; color: var(--purple); }
+  .dict-popup .phonetic { font-size: 14px; color: var(--text-light); margin: 4px 0 14px; }
+  .dict-popup .def { padding: 8px 0; border-bottom: 1px solid #ede4d8; }
+  .dict-popup .def .pos { font-size: 11px; color: var(--red); font-weight: 700; }
+  .dict-popup .def .meaning { font-size: 15px; margin: 4px 0; }
+  .dict-popup .btn-add-vocab {
+    width: 100%; margin-top: 16px; padding: 14px;
+    border-radius: 14px; background: var(--purple);
+    color: #fff; font-size: 16px; font-weight: 700;
+    border: none; cursor: pointer;
+  }
+
+  /* ═══════════ BOTTOM NAV ═══════════ */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #fffdf7;
+    border-top: 1px solid #ede4d8;
+    display: flex; justify-content: space-around;
+    padding: 8px 0;
+    padding-bottom: max(8px, env(safe-area-inset-bottom));
+    z-index: 100;
+  }
+  .bottom-nav button {
+    background: none; border: none; cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    padding: 6px 16px; border-radius: 12px;
+    font-size: 10px; color: var(--text-light); font-weight: 600;
+    transition: all .2s;
+  }
+  .bottom-nav button.active { color: var(--purple); background: #ede9fe; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+    background: var(--purple); color: #fff;
+    padding: 10px 24px; border-radius: 20px;
+    font-size: 14px; font-weight: 600;
+    z-index: 400; opacity: 0; transition: opacity .3s;
+    pointer-events: none;
+  }
+  .toast.show { opacity: 1; }
+
+  /* Category selector */
+  .cat-selector {
+    display: flex; gap: 8px; padding: 12px 0;
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .cat-selector button {
+    white-space: nowrap;
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1.5px solid #ede4d8;
+    background: #fffdf7;
+    font-size: 13px; font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .cat-selector button.active {
+    background: var(--purple);
+    color: #fff;
+    border-color: var(--purple);
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════ HOMEPAGE ═══════════ -->
+<div class="homepage" id="homepage">
+  <div class="logo-area">
+    <div class="friends-dots">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <h1 class="main-title">
+      learning<br>with<br>F<span class="dot">·</span>R<span class="dot">·</span>I<span class="dot">·</span>E<span class="dot">·</span>N<span class="dot">·</span>D<span class="dot">·</span>S
+    </h1>
+    <p class="subtitle">老友记 · 台词学英语</p>
+  </div>
+
+  <div class="frame-wrapper">
+    <div class="peephole-frame">
+      <span style="font-size:64px;">🛋️</span>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div><div class="stat-num" id="statSentences">78</div><div class="stat-label">台词</div></div>
+    <div><div class="stat-num" id="statWords">213</div><div class="stat-label">词汇</div></div>
+    <div><div class="stat-num" id="statVocab">0</div><div class="stat-label">已学</div></div>
+  </div>
+
+  <button class="btn-start" onclick="startLearning()">
+    开始学习 <span class="arrow">→</span>
+  </button>
+</div>
+
+<!-- ═══════════ LEARNING PAGE ═══════════ -->
+<div class="learn-page" id="learnPage">
+  <div class="learn-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <span class="progress" id="learnProgress">1 / 78</span>
+	        </div>
+
+  <div class="cat-selector" id="catSelector">
+    <button class="active" onclick="setFilter('all',this)">全部</button>
+    <button onclick="setFilter('Rachel',this)">Rachel</button>
+    <button onclick="setFilter('Ross',this)">Ross</button>
+    <button onclick="setFilter('Monica',this)">Monica</button>
+    <button onclick="setFilter('Chandler',this)">Chandler</button>
+    <button onclick="setFilter('Joey',this)">Joey</button>
+    <button onclick="setFilter('Phoebe',this)">Phoebe</button>
+  </div>
+
+  <div class="cat-selector" id="epSelector" style="margin-bottom:8px;">
+    <button onclick="setEpFilter('all',this)" class="active">📺 全部集数</button>
+          
+          <button onclick="setEpFilter('1-1',this)">S01E01 (18)</button>
+          <button onclick="setEpFilter('1-2',this)">S01E02 (6)</button>
+          <button onclick="setEpFilter('1-3',this)">S01E03 (5)</button>
+          <button onclick="setEpFilter('1-4',this)">S01E04 (4)</button>
+          <button onclick="setEpFilter('1-5',this)">S01E05 (5)</button>
+          <button onclick="setEpFilter('1-6',this)">S01E06 (3)</button>
+          <button onclick="setEpFilter('1-7',this)">S01E07 (4)</button>
+          <button onclick="setEpFilter('1-8',this)">S01E08 (4)</button>
+          <button onclick="setEpFilter('1-9',this)">S01E09 (3)</button>
+          <button onclick="setEpFilter('1-10',this)">S01E10 (3)</button>
+          <button onclick="setEpFilter('1-11',this)">S01E11 (2)</button>
+          <button onclick="setEpFilter('1-12',this)">S01E12 (1)</button>
+          <button onclick="setEpFilter('1-13',this)">S01E13 (2)</button>
+          <button onclick="setEpFilter('1-14',this)">S01E14 (2)</button>
+          <button onclick="setEpFilter('1-15',this)">S01E15 (1)</button>
+          <button onclick="setEpFilter('1-16',this)">S01E16 (2)</button>
+          <button onclick="setEpFilter('1-17',this)">S01E17 (2)</button>
+          <button onclick="setEpFilter('1-18',this)">S01E18 (1)</button>
+          <button onclick="setEpFilter('1-19',this)">S01E19 (1)</button>
+          <button onclick="setEpFilter('1-20',this)">S01E20 (1)</button>
+          <button onclick="setEpFilter('1-21',this)">S01E21 (1)</button>
+          <button onclick="setEpFilter('1-22',this)">S01E22 (1)</button>
+          <button onclick="setEpFilter('1-23',this)">S01E23 (2)</button>
+          <button onclick="setEpFilter('1-24',this)">S01E24 (3)</button>
+          <button onclick="setEpFilter('2-1',this)">S02E01 (2)</button>
+          <button onclick="setEpFilter('2-2',this)">S02E02 (2)</button>
+          <button onclick="setEpFilter('2-3',this)">S02E03 (2)</button>
+          <button onclick="setEpFilter('2-4',this)">S02E04 (1)</button>
+          <button onclick="setEpFilter('2-5',this)">S02E05 (2)</button>
+          <button onclick="setEpFilter('2-6',this)">S02E06 (2)</button>
+          <button onclick="setEpFilter('2-7',this)">S02E07 (3)</button>
+          <button onclick="setEpFilter('2-8',this)">S02E08 (2)</button>
+          <button onclick="setEpFilter('2-9',this)">S02E09 (2)</button>
+          <button onclick="setEpFilter('2-10',this)">S02E10 (1)</button>
+          <button onclick="setEpFilter('2-11',this)">S02E11 (2)</button>
+          <button onclick="setEpFilter('2-12',this)">S02E12 (2)</button>
+          <button onclick="setEpFilter('2-13',this)">S02E13 (1)</button>
+          <button onclick="setEpFilter('2-14',this)">S02E14 (3)</button>
+          <button onclick="setEpFilter('2-15',this)">S02E15 (2)</button>
+          <button onclick="setEpFilter('2-16',this)">S02E16 (1)</button>
+          <button onclick="setEpFilter('2-17',this)">S02E17 (2)</button>
+          <button onclick="setEpFilter('2-19',this)">S02E19 (2)</button>
+          <button onclick="setEpFilter('2-21',this)">S02E21 (2)</button>
+          <button onclick="setEpFilter('2-22',this)">S02E22 (1)</button>
+          <button onclick="setEpFilter('2-23',this)">S02E23 (1)</button>
+          <button onclick="setEpFilter('2-24',this)">S02E24 (1)</button>
+          <button onclick="setEpFilter('3-1',this)">S03E01 (2)</button>
+          <button onclick="setEpFilter('3-2',this)">S03E02 (2)</button>
+          <button onclick="setEpFilter('3-3',this)">S03E03 (1)</button>
+          <button onclick="setEpFilter('3-4',this)">S03E04 (1)</button>
+          <button onclick="setEpFilter('3-5',this)">S03E05 (2)</button>
+          <button onclick="setEpFilter('3-6',this)">S03E06 (2)</button>
+          <button onclick="setEpFilter('3-7',this)">S03E07 (1)</button>
+          <button onclick="setEpFilter('3-8',this)">S03E08 (1)</button>
+          <button onclick="setEpFilter('3-9',this)">S03E09 (2)</button>
+          <button onclick="setEpFilter('3-11',this)">S03E11 (1)</button>
+          <button onclick="setEpFilter('3-12',this)">S03E12 (1)</button>
+          <button onclick="setEpFilter('3-13',this)">S03E13 (1)</button>
+          <button onclick="setEpFilter('3-14',this)">S03E14 (1)</button>
+          <button onclick="setEpFilter('3-15',this)">S03E15 (2)</button>
+          <button onclick="setEpFilter('3-16',this)">S03E16 (1)</button>
+          <button onclick="setEpFilter('3-17',this)">S03E17 (1)</button>
+          <button onclick="setEpFilter('3-18',this)">S03E18 (1)</button>
+          <button onclick="setEpFilter('3-19',this)">S03E19 (2)</button>
+          <button onclick="setEpFilter('3-21',this)">S03E21 (2)</button>
+          <button onclick="setEpFilter('3-22',this)">S03E22 (1)</button>
+          <button onclick="setEpFilter('3-23',this)">S03E23 (1)</button>
+          <button onclick="setEpFilter('3-24',this)">S03E24 (2)</button>
+          <button onclick="setEpFilter('4-1',this)">S04E01 (1)</button>
+          <button onclick="setEpFilter('4-2',this)">S04E02 (1)</button>
+          <button onclick="setEpFilter('4-3',this)">S04E03 (1)</button>
+          <button onclick="setEpFilter('4-5',this)">S04E05 (1)</button>
+          <button onclick="setEpFilter('4-6',this)">S04E06 (1)</button>
+          <button onclick="setEpFilter('4-7',this)">S04E07 (1)</button>
+          <button onclick="setEpFilter('4-8',this)">S04E08 (1)</button>
+          <button onclick="setEpFilter('4-9',this)">S04E09 (2)</button>
+          <button onclick="setEpFilter('4-11',this)">S04E11 (2)</button>
+          <button onclick="setEpFilter('4-12',this)">S04E12 (2)</button>
+          <button onclick="setEpFilter('4-13',this)">S04E13 (1)</button>
+          <button onclick="setEpFilter('4-14',this)">S04E14 (1)</button>
+          <button onclick="setEpFilter('4-15',this)">S04E15 (1)</button>
+          <button onclick="setEpFilter('4-17',this)">S04E17 (1)</button>
+          <button onclick="setEpFilter('4-18',this)">S04E18 (1)</button>
+          <button onclick="setEpFilter('4-19',this)">S04E19 (1)</button>
+          <button onclick="setEpFilter('4-21',this)">S04E21 (2)</button>
+          <button onclick="setEpFilter('4-22',this)">S04E22 (1)</button>
+          <button onclick="setEpFilter('4-23',this)">S04E23 (1)</button>
+          <button onclick="setEpFilter('4-24',this)">S04E24 (2)</button>
+          <button onclick="setEpFilter('5-1',this)">S05E01 (1)</button>
+          <button onclick="setEpFilter('5-3',this)">S05E03 (1)</button>
+          <button onclick="setEpFilter('5-4',this)">S05E04 (1)</button>
+          <button onclick="setEpFilter('5-5',this)">S05E05 (1)</button>
+          <button onclick="setEpFilter('5-6',this)">S05E06 (1)</button>
+          <button onclick="setEpFilter('5-7',this)">S05E07 (1)</button>
+          <button onclick="setEpFilter('5-8',this)">S05E08 (2)</button>
+          <button onclick="setEpFilter('5-9',this)">S05E09 (2)</button>
+          <button onclick="setEpFilter('5-11',this)">S05E11 (2)</button>
+          <button onclick="setEpFilter('5-13',this)">S05E13 (2)</button>
+          <button onclick="setEpFilter('5-14',this)">S05E14 (1)</button>
+          <button onclick="setEpFilter('5-15',this)">S05E15 (2)</button>
+          <button onclick="setEpFilter('5-16',this)">S05E16 (1)</button>
+          <button onclick="setEpFilter('5-17',this)">S05E17 (1)</button>
+          <button onclick="setEpFilter('5-18',this)">S05E18 (1)</button>
+          <button onclick="setEpFilter('5-19',this)">S05E19 (1)</button>
+          <button onclick="setEpFilter('5-21',this)">S05E21 (1)</button>
+          <button onclick="setEpFilter('5-23',this)">S05E23 (1)</button>
+          <button onclick="setEpFilter('6-1',this)">S06E01 (1)</button>
+          <button onclick="setEpFilter('6-2',this)">S06E02 (1)</button>
+          <button onclick="setEpFilter('6-3',this)">S06E03 (1)</button>
+          <button onclick="setEpFilter('6-5',this)">S06E05 (2)</button>
+          <button onclick="setEpFilter('6-7',this)">S06E07 (1)</button>
+          <button onclick="setEpFilter('6-8',this)">S06E08 (1)</button>
+          <button onclick="setEpFilter('6-9',this)">S06E09 (2)</button>
+          <button onclick="setEpFilter('6-11',this)">S06E11 (1)</button>
+          <button onclick="setEpFilter('6-12',this)">S06E12 (1)</button>
+          <button onclick="setEpFilter('6-14',this)">S06E14 (1)</button>
+          <button onclick="setEpFilter('6-15',this)">S06E15 (1)</button>
+          <button onclick="setEpFilter('6-16',this)">S06E16 (2)</button>
+          <button onclick="setEpFilter('6-18',this)">S06E18 (1)</button>
+          <button onclick="setEpFilter('6-19',this)">S06E19 (1)</button>
+          <button onclick="setEpFilter('6-21',this)">S06E21 (1)</button>
+          <button onclick="setEpFilter('6-22',this)">S06E22 (1)</button>
+          <button onclick="setEpFilter('6-23',this)">S06E23 (1)</button>
+          <button onclick="setEpFilter('6-24',this)">S06E24 (1)</button>
+          <button onclick="setEpFilter('7-1',this)">S07E01 (1)</button>
+          <button onclick="setEpFilter('7-2',this)">S07E02 (1)</button>
+          <button onclick="setEpFilter('7-4',this)">S07E04 (1)</button>
+          <button onclick="setEpFilter('7-5',this)">S07E05 (1)</button>
+          <button onclick="setEpFilter('7-7',this)">S07E07 (1)</button>
+          <button onclick="setEpFilter('7-8',this)">S07E08 (1)</button>
+          <button onclick="setEpFilter('7-10',this)">S07E10 (1)</button>
+          <button onclick="setEpFilter('7-11',this)">S07E11 (1)</button>
+          <button onclick="setEpFilter('7-13',this)">S07E13 (1)</button>
+          <button onclick="setEpFilter('7-14',this)">S07E14 (2)</button>
+          <button onclick="setEpFilter('7-16',this)">S07E16 (1)</button>
+          <button onclick="setEpFilter('7-17',this)">S07E17 (1)</button>
+          <button onclick="setEpFilter('7-19',this)">S07E19 (1)</button>
+          <button onclick="setEpFilter('7-20',this)">S07E20 (1)</button>
+          <button onclick="setEpFilter('7-22',this)">S07E22 (1)</button>
+          <button onclick="setEpFilter('7-23',this)">S07E23 (1)</button>
+          <button onclick="setEpFilter('7-24',this)">S07E24 (1)</button>
+          <button onclick="setEpFilter('8-1',this)">S08E01 (1)</button>
+          <button onclick="setEpFilter('8-2',this)">S08E02 (1)</button>
+          <button onclick="setEpFilter('8-3',this)">S08E03 (1)</button>
+          <button onclick="setEpFilter('8-4',this)">S08E04 (1)</button>
+          <button onclick="setEpFilter('8-5',this)">S08E05 (1)</button>
+          <button onclick="setEpFilter('8-7',this)">S08E07 (2)</button>
+          <button onclick="setEpFilter('8-9',this)">S08E09 (1)</button>
+          <button onclick="setEpFilter('8-10',this)">S08E10 (1)</button>
+          <button onclick="setEpFilter('8-11',this)">S08E11 (1)</button>
+          <button onclick="setEpFilter('8-14',this)">S08E14 (2)</button>
+          <button onclick="setEpFilter('8-17',this)">S08E17 (2)</button>
+          <button onclick="setEpFilter('8-20',this)">S08E20 (2)</button>
+          <button onclick="setEpFilter('8-22',this)">S08E22 (1)</button>
+          <button onclick="setEpFilter('8-23',this)">S08E23 (1)</button>
+          <button onclick="setEpFilter('8-24',this)">S08E24 (1)</button>
+          <button onclick="setEpFilter('9-2',this)">S09E02 (1)</button>
+          <button onclick="setEpFilter('9-3',this)">S09E03 (1)</button>
+          <button onclick="setEpFilter('9-5',this)">S09E05 (1)</button>
+          <button onclick="setEpFilter('9-7',this)">S09E07 (1)</button>
+          <button onclick="setEpFilter('9-8',this)">S09E08 (1)</button>
+          <button onclick="setEpFilter('9-10',this)">S09E10 (1)</button>
+          <button onclick="setEpFilter('9-11',this)">S09E11 (1)</button>
+          <button onclick="setEpFilter('9-14',this)">S09E14 (2)</button>
+          <button onclick="setEpFilter('9-17',this)">S09E17 (2)</button>
+          <button onclick="setEpFilter('9-20',this)">S09E20 (2)</button>
+          <button onclick="setEpFilter('9-21',this)">S09E21 (1)</button>
+          <button onclick="setEpFilter('9-22',this)">S09E22 (1)</button>
+          <button onclick="setEpFilter('10-1',this)">S10E01 (1)</button>
+          <button onclick="setEpFilter('10-2',this)">S10E02 (1)</button>
+          <button onclick="setEpFilter('10-3',this)">S10E03 (1)</button>
+          <button onclick="setEpFilter('10-4',this)">S10E04 (1)</button>
+          <button onclick="setEpFilter('10-5',this)">S10E05 (1)</button>
+          <button onclick="setEpFilter('10-6',this)">S10E06 (1)</button>
+          <button onclick="setEpFilter('10-8',this)">S10E08 (1)</button>
+          <button onclick="setEpFilter('10-9',this)">S10E09 (1)</button>
+          <button onclick="setEpFilter('10-11',this)">S10E11 (1)</button>
+          <button onclick="setEpFilter('10-12',this)">S10E12 (1)</button>
+          <button onclick="setEpFilter('10-14',this)">S10E14 (1)</button>
+          <button onclick="setEpFilter('10-15',this)">S10E15 (1)</button>
+          <button onclick="setEpFilter('10-16',this)">S10E16 (1)</button>
+          <button onclick="setEpFilter('10-17',this)">S10E17 (2)</button>
+          <button onclick="setEpFilter('10-18',this)">S10E18 (5)</button>
+  </div>
+
+  <video id="originalVideo" style="display:none" preload="auto" playsinline></video>
+  <div class="card-container" id="cardContainer">
+    <div class="scene-card" id="sceneCard">
+      <div class="scene-header" id="cardHeader"></div>
+      <div class="en-sentence" id="cardEn"></div>
+      <div class="cn-sentence" id="cardCn"></div>
+      <div class="words-bar" id="cardWords"></div>
+      <div class="card-controls">
+	        <button class="ctrl-btn btn-play" id="btnOriginal" onclick="toggleOriginal()" style="background:#fee2e2;color:#991b1b;">🎬 原声</button>
+        <button class="ctrl-btn btn-save-word" id="btnSaveWord" onclick="saveCurrentWord()">📝</button>
+        <button class="ctrl-btn btn-learned" onclick="nextSentence()">掌握</button>
+	        <button class="ctrl-btn btn-learned" onclick="nextSentence()" style="background:#e0f2fe;color:#0c4a6e;">下一句 →</button>
+      </div>
+    </div>
+    <div class="video-area" id="videoArea">
+      <div id="youtubePlayer"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ VOCAB PAGE ═══════════ -->
+<div class="sub-page" id="vocabPage">
+  <div class="sub-header">
+    <button class="back-btn" onclick="goHome()">←</button>
+    <h2>📝 我的生词本</h2>
+    <button class="btn-start" style="margin-left:auto;padding:8px 16px;font-size:13px" onclick="exportVocab()">导出</button>
+  </div>
+  <div id="vocabList"></div>
+</div>
+
+<!-- ═══════════ DICT OVERLAY ═══════════ -->
+<div class="dict-overlay" id="dictOverlay" onclick="closeDict(event)">
+  <div class="dict-popup" id="dictPopup" onclick="event.stopPropagation()">
+    <button class="btn-close" onclick="closeDict()">&times;</button>
+    <div id="dictContent"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script>
+// ── Data ──
+let scripts = [], vocabIndex = {}, vocabulary = {};
+let currentIdx = 0, filteredScripts = [], currentFilter = 'all';
+
+// ── Init ──
+async function init() {
+  try {
+    const [s, v] = await Promise.all([
+      fetch('data/scripts.json').then(r=>r.json()),
+      fetch('data/vocab_index.json').then(r=>r.json()),
+    ]);
+    scripts = s; vocabIndex = v;
+  } catch(e) {
+    document.getElementById('homepage').innerHTML =
+      '<div class="homepage"><div class="empty-state"><div class="icon">⚠️</div>数据加载失败<br><small>请确认 data 文件夹存在</small></div></div>';
+    return;
+  }
+
+  vocabulary = JSON.parse(localStorage.getItem('friends_vocab') || '{}');
+  // 保存原始 SRT 时间戳 & 加载校准
+  const cal = JSON.parse(localStorage.getItem('friends_cal')||'{}');
+  scripts.forEach(s => { 
+    if (!s._origTimestamp) s._origTimestamp = s.timestamp;
+    if (cal[s.id]) s.timestamp = cal[s.id];
+  });
+  // 加载用户保存的 YouTube ID
+  const ytData = JSON.parse(localStorage.getItem('friends_yt') || '{}');
+  scripts.forEach(s => {
+    if (ytData[s.id]) {
+      s.youtube_id = ytData[s.id].youtube_id;
+      s.youtube_start = ytData[s.id].youtube_start;
+    }
+  });
+  filteredScripts = [...scripts];
+  document.getElementById('statSentences').textContent = scripts.length;
+  document.getElementById('statWords').textContent = Object.keys(vocabIndex).length;
+  buildEpisodeList();
+  updateVocabStat();
+}
+
+// ── Navigation ──
+function startLearning() {
+  document.getElementById('homepage').style.display = 'none';
+  document.getElementById('learnPage').classList.add('active');
+  currentIdx = 0;
+  showCard();
+}
+
+function goHome() {
+  document.getElementById('learnPage').classList.remove('active');
+  document.getElementById('vocabPage').classList.remove('active');
+  document.getElementById('homepage').style.display = 'flex';
+  updateVocabStat();
+}
+
+function showVocabPage() {
+  document.getElementById('homepage').style.display = 'none';
+  document.getElementById('learnPage').classList.remove('active');
+  document.getElementById('vocabPage').classList.add('active');
+  renderVocab();
+}
+
+// ── Card Display ──
+function showCard() {
+  if (filteredScripts.length === 0) {
+    document.getElementById('cardEn').innerHTML = '<div class="empty-state"><div class="icon">📭</div>这个分类下还没有台词</div>';
+    document.getElementById('cardCn').textContent = '';
+    document.getElementById('cardHeader').innerHTML = '';
+    document.getElementById('cardWords').innerHTML = '';
+    return;
+  }
+
+  if (currentIdx >= filteredScripts.length) {
+    currentIdx = 0;
+    shuffleArray(filteredScripts);
+  }
+
+  const s = filteredScripts[currentIdx];
+  document.getElementById('learnProgress').textContent = `${currentIdx+1} / ${filteredScripts.length}`;
+
+  // Header
+  document.getElementById('cardHeader').innerHTML = `
+    <span class="chip chip-speaker">👤 ${s.speaker}</span>
+    <span class="chip chip-scene">📍 ${s.scene}</span>
+    <span class="chip chip-ep">S${String(s.season).padStart(2,'0')}E${String(s.episode).padStart(2,'0')}</span>
+  `;
+
+  // English with clickable words
+  const textHTML = s.text.split(/(\s+)/).map(part => {
+    const clean = part.trim().replace(/[.,!?;:'"()]$/, '');
+    if (clean.length > 1 && !/^\d+$/.test(clean)) {
+      return `<span class="word" onclick="lookupWord(event,'${clean.replace(/'/g,"\\'")}')">${part}</span>`;
+    }
+    return part;
+  }).join('');
+  document.getElementById('cardEn').innerHTML = textHTML;
+
+  // Chinese
+  document.getElementById('cardCn').textContent = '💬 ' + s.textCN;
+
+  // Keyword chips
+  document.getElementById('cardWords').innerHTML = s.keywords.slice(0,6).map(k =>
+    `<span class="word-tag" onclick="lookupWord(event,'${k}')">${k}</span>`
+  ).join('');
+
+  // Card animation
+  const card = document.getElementById('sceneCard');
+  card.classList.remove('swipe-next');
+  void card.offsetWidth;
+  card.classList.add('swipe-next');
+
+  // 清理播放状态
+  document.getElementById('videoArea').classList.remove('show');
+  document.getElementById('youtubePlayer').innerHTML = '';
+  document.getElementById('btnPlayAudio').textContent = '🔊 朗读';
+  document.getElementById('btnOriginal').textContent = '🎬 原声';
+  // 有 YouTube ID 才显示原声按钮
+  document.getElementById('btnOriginal').style.display = 'flex';
+  audioPlaying = false;
+  window.speechSynthesis.cancel();
+}
+
+function nextSentence() {
+  currentIdx++;
+  if (currentIdx >= filteredScripts.length) {
+    currentIdx = 0;
+    shuffleArray(filteredScripts);
+  }
+  showCard();
+  toast('✅ 下一句！');
+}
+
+// ── Audio (YouTube-based original audio) ──
+function toggleAudio() {
+  const s = filteredScripts[currentIdx];
+  if (!s) return;
+  const area = document.getElementById('videoArea');
+  const player = document.getElementById('youtubePlayer');
+
+  // 如果已经在显示，则隐藏
+  if (area.classList.contains('show')) {
+    area.classList.remove('show');
+    player.innerHTML = '';
+    document.getElementById('btnPlayAudio').textContent = '🔊 听原声';
+    return;
+  }
+
+  // 显示播放器并加载 YouTube
+  area.classList.add('show');
+  document.getElementById('btnPlayAudio').textContent = '🔇 收起';
+
+  let embedUrl;
+  if (s.youtube_id) {
+    // 有精确视频ID：直接播放对应秒数
+    embedUrl = `https://www.youtube.com/embed/${s.youtube_id}?start=${s.youtube_start||0}&autoplay=1&rel=0&modestbranding=1`;
+  } else {
+    // 没有视频ID：用搜索关键词
+    const query = encodeURIComponent(`Friends ${s.speaker} scene ${s.scene}`);
+    embedUrl = `https://www.youtube.com/embed?listType=search&list=${query}&autoplay=1`;
+  }
+  
+  player.innerHTML = `<iframe src="${embedUrl}" allow="autoplay; encrypted-media" allowfullscreen 
+    style="width:100%;height:100%;border:none;border-radius:16px;"></iframe>`;
+  toast('🎬 正在播放...');
+}
+
+function toggleVideo() { toggleAudio(); }
+
+function promptYoutubeId() {
+  const s = filteredScripts[currentIdx];
+  if (!s) return;
+  const url = prompt('🎬 粘贴 YouTube 视频链接（含起始秒数）:\n\n例如: https://www.youtube.com/watch?v=XXXXXX&t=42s\n\n当前台词: ' + s.text.substring(0,50) + '...');
+  if (!url) return;
+  try {
+    const u = new URL(url);
+    const vid = u.searchParams.get('v');
+    const t = u.searchParams.get('t') || '0';
+    const secs = parseInt(t.replace('s','')) || 0;
+    if (vid) {
+      saveYoutubeId(s.id, vid, secs);
+      toast('✅ 原声已关联！');
+      showCard();
+    }
+  } catch(e) {
+    toast('❌ 链接格式不对，请重试');
+  }
+}
+
+function saveYoutubeId(sid, vid, start) {
+  const ytData = JSON.parse(localStorage.getItem('friends_yt') || '{}');
+  ytData[sid] = { youtube_id: vid, youtube_start: start };
+  localStorage.setItem('friends_yt', JSON.stringify(ytData));
+  // 同步更新当前数据
+  const s = scripts.find(sc => sc.id === sid);
+  if (s) { s.youtube_id = vid; s.youtube_start = start; }
+}
+
+function toggleOriginal() {
+  const s = filteredScripts[currentIdx];
+  if (!s) return;
+  const btn = document.getElementById('btnOriginal');
+  const video = document.getElementById('originalVideo');
+
+  // 正在播放同一句 → 停止
+  if (!video.paused && video.dataset.sid === s.id) {
+    video.pause();
+    btn.textContent = '🎬 原声';
+    return;
+  }
+
+  const ts = s.timestamp;
+  const parts = ts.replace(',',':').split(':');
+  const secs = parseInt(parts[0])*3600 + parseInt(parts[1])*60 + parseInt(parts[2]) + (parts.length>3 ? parseInt(parts[3])/1000 : 0);
+  
+  const vidPath = 'video/S' + String(s.season).padStart(2,'0') + 'E' + String(s.episode).padStart(2,'0') + '.mp4';
+  video.src = vidPath;
+  video.dataset.sid = s.id;
+  video.currentTime = Math.max(0, secs - 0.5);
+  
+  video.onloadeddata = function() {
+    btn.textContent = '⏹ 停止';
+    toast('🎬 ' + s.speaker + ' 原声');
+  };
+  video.onended = function() { btn.textContent = '🎬 原声'; };
+  video.onerror = function() {
+    btn.textContent = '🎬 原声';
+    toast('❌ 缺失视频: ' + vidPath);
+  };
+  video.play().catch(function(e) {
+    toast('❌ ' + e.message);
+  });
+}
+
+function adjustTS(delta) {
+  const s = filteredScripts[currentIdx];
+  if (!s) return;
+  const ts = s.timestamp;
+  const parts = ts.replace(',',':').split(':');
+  let secs = parseInt(parts[0])*3600+parseInt(parts[1])*60+parseInt(parts[2])+(parts.length>3?parseInt(parts[3])/1000:0);
+  secs += delta;
+  if (secs < 0) secs = 0;
+  const h=Math.floor(secs/3600), m=Math.floor((secs%3600)/60), s2=Math.floor(secs%60), ms=Math.round((secs%1)*1000);
+  s.timestamp = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s2).padStart(2,'0')},${String(ms).padStart(3,'0')}`;
+  s._calibrated = true;
+  // 保存校准数据
+  const cal = JSON.parse(localStorage.getItem('friends_cal')||'{}');
+  cal[s.id] = s.timestamp;
+  localStorage.setItem('friends_cal', JSON.stringify(cal));
+  toast('⏱ ' + (delta>=0?'+':'') + delta + '秒 → ' + s.timestamp);
+  showCard();
+}
+
+function checkFileExists(url) {
+  return fetch(url, {method:'HEAD'}).then(r => r.ok).catch(() => false);
+}
+
+// ── Filter ──
+let currentEpFilter = 'all';
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('#catSelector button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+function setEpFilter(filter, btn) {
+  currentEpFilter = filter;
+  document.querySelectorAll('#epSelector button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() {
+  let result = [...scripts];
+  if (currentFilter !== 'all') {
+    result = result.filter(sc => sc.speaker === currentFilter);
+  }
+  if (currentEpFilter !== 'all') {
+    const [se, ep] = currentEpFilter.split('-').map(Number);
+    result = result.filter(sc => sc.season === se && sc.episode === ep);
+  }
+  filteredScripts = result;
+  currentIdx = 0;
+  showCard();
+}
+
+// ── Dictionary ──
+async function lookupWord(event, word) {
+  if (event) event.stopPropagation();
+  const overlay = document.getElementById('dictOverlay');
+  const content = document.getElementById('dictContent');
+  overlay.classList.add('show');
+
+  // 立即发音
+  speakWord(word);
+
+  content.innerHTML = `<div class="word-title">${word} <button onclick="speakWord('${word.replace(/'/g,"\\'")}')" style="background:none;border:none;font-size:22px;cursor:pointer" title="朗读">🔊</button></div><div class="phonetic">⏳ 查询中...</div>`;
+
+  try {
+    const resp = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${encodeURIComponent(word)}`);
+    if (!resp.ok) throw new Error('Not found');
+    const data = await resp.json();
+    const entry = data[0];
+    let html = `<div class="word-title">${entry.word}</div>`;
+    if (entry.phonetic) html += `<div class="phonetic">🔊 ${entry.phonetic}</div>`;
+    entry.meanings.forEach(m => {
+      html += `<div style="margin-top:12px;"><span class="pos">${m.partOfSpeech}</span></div>`;
+      m.definitions.slice(0,3).forEach(d => {
+        html += `<div class="def"><div class="meaning">${d.definition}</div>${d.example?`<div style="font-size:13px;color:var(--text-light);font-style:italic">"${d.example}"</div>`:''}</div>`;
+      });
+    });
+    const related = vocabIndex[word.toLowerCase()];
+    if (related && related.length > 0) {
+      html += `<div style="margin-top:14px;font-weight:700;color:var(--purple)">📺 老友记中出现 ${related.length} 次</div>`;
+      related.slice(0,3).forEach(sid => {
+        const s = scripts.find(sc=>sc.id===sid);
+        if (s) html += `<div style="padding:6px 0;border-bottom:1px solid #ede4d8;font-size:13px"><b>${s.speaker}</b> (S${s.season}E${s.episode}): "${s.text}"</div>`;
+      });
+    }
+    html += `<button class="btn-add-vocab" onclick="addVocab('${word}')">${vocabulary[word]?'✅ 已在生词本':'📝 加入生词本'}</button>`;
+    content.innerHTML = html;
+  } catch(e) {
+    content.innerHTML = `<div class="word-title">${word}</div><div class="phonetic">暂无词典数据</div><button class="btn-add-vocab" onclick="addVocab('${word}')">${vocabulary[word]?'✅ 已在生词本':'📝 加入生词本'}</button>`;
+  }
+}
+
+function speakWord(word) {
+  window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(word);
+  utter.lang = 'en-US';
+  utter.rate = 0.8;
+  utter.pitch = 1;
+  const voices = window.speechSynthesis.getVoices();
+  const preferred = voices.find(v => v.name.includes('Samantha') && v.lang.startsWith('en'))
+    || voices.find(v => v.lang.startsWith('en-US'))
+    || voices.find(v => v.lang.startsWith('en'));
+  if (preferred) utter.voice = preferred;
+  window.speechSynthesis.speak(utter);
+}
+
+let audioOffset = 0;
+function reExtractClips() {
+  const newOffset = parseFloat(document.getElementById('timeOffset').value) || 0;
+  if (newOffset === audioOffset) return;
+  audioOffset = newOffset;
+  // 重建所有时间戳
+  scripts.forEach(s => {
+    if (s._origTimestamp && audioOffset !== 0) {
+      // 恢复原始时间戳并应用偏移
+      const ts = s._origTimestamp;
+      if (',' in ts) {
+        const parts = ts.replace(',',':').split(':');
+        let secs = parseInt(parts[0])*3600 + parseInt(parts[1])*60 + parseInt(parts[2]) + parseInt(parts[3])/1000;
+        secs += audioOffset;
+        const h = Math.floor(secs/3600);
+        const m = Math.floor((secs%3600)/60);
+        const s2 = Math.floor(secs%60);
+        const ms = Math.round((secs%1)*1000);
+        s.timestamp = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s2).padStart(2,'0')},${String(ms).padStart(3,'0')}`;
+      }
+    }
+  });
+  showCard();
+  toast('⏱ 偏移已应用: ' + (audioOffset>=0?'+':'') + audioOffset + '秒  (需要重新截取音频)');
+}
+
+function buildEpisodeList() {
+  const eps = new Map();
+  scripts.forEach(s => {
+    const key = `${s.season}-${s.episode}`;
+    if (!eps.has(key)) eps.set(key, { season: s.season, episode: s.episode, count: 0 });
+    eps.get(key).count++;
+  });
+  const sorted = [...eps.keys()].sort((a,b) => {
+    const [sa,ea] = a.split('-').map(Number);
+    const [sb,eb] = b.split('-').map(Number);
+    return sa!==sb ? sa-sb : ea-eb;
+  });
+  const container = document.getElementById('epSelector');
+  sorted.forEach(key => {
+    const ep = eps.get(key);
+    const btn = document.createElement('button');
+    btn.textContent = `S${String(ep.season).padStart(2,'0')}E${String(ep.episode).padStart(2,'0')} (${ep.count})`;
+    btn.onclick = () => setEpFilter(key, btn);
+    container.appendChild(btn);
+  });
+}
+
+function closeDict(event) {
+  if (event && event.target !== document.getElementById('dictOverlay')) return;
+  document.getElementById('dictOverlay').classList.remove('show');
+}
+
+// ── Vocabulary ──
+function addVocab(word) {
+  if (!vocabulary[word]) {
+    vocabulary[word] = { added: new Date().toISOString(), level: 'new' };
+    localStorage.setItem('friends_vocab', JSON.stringify(vocabulary));
+  }
+  updateVocabStat();
+  document.getElementById('dictOverlay').classList.remove('show');
+  toast('📝 已加入生词本');
+}
+
+function saveCurrentWord() {
+  const s = filteredScripts[currentIdx];
+  if (!s || !s.keywords.length) { toast('没有可收藏的词'); return; }
+  addVocab(s.keywords[0]);
+}
+
+function removeVocab(word) {
+  delete vocabulary[word];
+  localStorage.setItem('friends_vocab', JSON.stringify(vocabulary));
+  renderVocab();
+  updateVocabStat();
+}
+
+function changeLevel(word, level) {
+  if (vocabulary[word]) {
+    vocabulary[word].level = level;
+    localStorage.setItem('friends_vocab', JSON.stringify(vocabulary));
+    renderVocab();
+  }
+}
+
+function renderVocab() {
+  const list = document.getElementById('vocabList');
+  const words = Object.keys(vocabulary);
+  if (words.length === 0) {
+    list.innerHTML = '<div class="empty-state"><div class="icon">📝</div>还没有生词<br>学习时点击单词即可添加</div>';
+    return;
+  }
+  words.sort((a,b) => new Date(vocabulary[b].added) - new Date(vocabulary[a].added));
+  list.innerHTML = words.map(w => {
+    const v = vocabulary[w];
+    const cls = {new:'lvl-new',learning:'lvl-learning',mastered:'lvl-mastered'}[v.level]||'lvl-new';
+    const names = {new:'新学',learning:'复习中',mastered:'已掌握'};
+    return `
+      <div class="vocab-item">
+        <div><div class="v-word" onclick="lookupWord(event,'${w}')">${w}</div>
+          <div class="v-meta">${new Date(v.added).toLocaleDateString('zh-CN')}</div></div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <span class="level-tag ${cls}">${names[v.level]}</span>
+          <select onchange="changeLevel('${w}',this.value)" style="font-size:10px;border-radius:8px;padding:2px 4px;border:1px solid #ede4d8">
+            <option ${v.level==='new'?'selected':''} value="new">新学</option>
+            <option ${v.level==='learning'?'selected':''} value="learning">复习中</option>
+            <option ${v.level==='mastered'?'selected':''} value="mastered">已掌握</option>
+          </select>
+          <button onclick="removeVocab('${w}')" style="background:none;border:none;cursor:pointer">🗑</button>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function updateVocabStat() {
+  document.getElementById('statVocab').textContent = Object.keys(vocabulary).length;
+}
+
+function exportVocab() {
+  const lines = Object.entries(vocabulary).map(([w,v]) => `${w},${v.level},${v.added}`);
+  const csv = 'Word,Level,Added\n' + lines.join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'friends_vocab.csv'; a.click();
+  toast('📤 已导出');
+}
+
+// ── Utils ──
+function shuffleArray(arr) {
+  for (let i = arr.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+}
+
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(t._tid); t._tid = setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+// ── Keyboard ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' && document.getElementById('learnPage').classList.contains('active')) nextSentence();
+  if (e.key === 'ArrowLeft' && document.getElementById('learnPage').classList.contains('active')) goHome();
+});
+
+// ── Bottom Nav ──
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+  document.getElementById('homepage').style.display = 'flex';
+});
+</script>
+
+<!-- Bottom Nav (visible on learning/vocab pages) -->
+<div class="bottom-nav" id="bottomNav" style="display:none">
+  <button onclick="startLearning()" id="navLearn">📖 学习</button>
+  <button onclick="goHome()">🏠 主页</button>
+  <button onclick="showVocabPage()" id="navVocab">📝 生词本</button>
+</div>
+
+<script>
+const observer = new MutationObserver(() => {
+  const learning = document.getElementById('learnPage').classList.contains('active');
+  const vocab = document.getElementById('vocabPage').classList.contains('active');
+  document.getElementById('bottomNav').style.display = (learning || vocab) ? 'flex' : 'none';
+  if (vocab) renderVocab();
+});
+observer.observe(document.getElementById('learnPage'), {attributes:true});
+observer.observe(document.getElementById('vocabPage'), {attributes:true});
+</script>
+</body>
+</html>

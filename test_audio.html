@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html><body>
+<h1>Audio MP3 Test</h1>
+<audio id="a" controls></audio>
+<script>
+var a = document.getElementById('a');
+a.src = 'audio/clips/s01e01_0005.mp3';
+a.onerror = function() { document.body.innerHTML += '<p style=color:red>ERROR code:' + (a.error? a.error.code : '?') + '</p>'; };
+a.onloadeddata = function() { document.body.innerHTML += '<p style=color:green>LOADED OK</p>'; };
+</script>
+</body></html>
